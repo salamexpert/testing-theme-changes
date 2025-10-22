@@ -1,0 +1,594 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var customerCountry = "{{ localization.country.iso_code | escape }}";
+    var currentPath = window.location.pathname;
+
+    if (currentPath == "/pages/instruction") {
+      if (customerCountry != "US") {
+        window.location.href = "/";
+      }
+    }
+  });
+</script>
+
+
+
+<head>
+	<!-- Added by AVADA SEO Suite -->
+	{% include 'avada-seo' %}
+	<!-- /Added by AVADA SEO Suite -->
+
+ <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K5QS4VS');</script>
+<!-- End Google Tag Manager -->
+{% render 'ultimate-datalayer' %}
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="google-site-verification" content="7rHiminOYaCxincY5_sk4tskCg-QGg-aRCEnR5uBFYc" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_button }}">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {%- endif -%}
+
+{%- if request.path contains '/tagged/' and current_tags.size > 0 -%}
+  <meta name="description" content="Explore BubbleBum blog posts tagged with {{ current_tags.first }}. Discover travel tips, car seat safety guides, and parenting hacks for stress-free family journeys.">
+{%- elsif request.path == '/collections/all' or request.path == '/en-ie/collections/all' or request.path == '/en-de/collections/all' -%}
+  <meta name="description" content="Shop all BubbleBum collections in one place. Discover travel car booster seats, kids’ travel accessories, and safety essentials for stress-free journeys.">
+{%- elsif page_description -%}
+  <meta name="description" content="{{ page_description | escape }}">
+{%- endif -%}
+
+  {% include 'social-meta-tags' %}
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+  <link rel="preconnect" href="https://monorail-edge.shopifysvc.com">
+
+  {%- assign header_font = settings.type_header_font -%}
+  {%- assign base_font = settings.type_base_font -%}
+  {%- assign base_font_bolder = base_font | font_modify: 'weight', 'bolder' -%}
+  {%- assign base_font_bold = base_font | font_modify: 'weight', 'bold' -%}
+  {%- assign base_font_italic = base_font | font_modify: 'style', 'italic' -%}
+  {%- assign base_font_bold_italic = base_font_bold | font_modify: 'style', 'italic' -%}
+
+  <link rel="preload" href="{{ 'theme.css' | asset_url }}" as="style">
+  <link rel="preload" as="font" href="{{ header_font | font_url }}" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="{{ base_font | font_url }}" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="{{ base_font_bold | font_url }}" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ 'theme.js' | asset_url }}" as="script">
+  <link rel="preload" href="{{ 'lazysizes.js' | asset_url }}" as="script">
+
+  {%- if canonical_url != blank  -%}
+    <link rel="canonical" href="{{ canonical_url }}">
+  {%- endif -%}
+
+  {%- capture seo_title -%}
+    {%- if request.page_type == 'search' and search.performed == true -%}
+      {{ 'general.search.heading' | t: count: search.results_count }}: {{ 'general.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
+    {%- else -%}
+      {{ page_title }}
+    {%- endif -%}
+    {%- if current_tags -%}
+      {%- assign meta_tags = current_tags | join: ', ' -%} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+    {%- endif -%}
+    {%- if current_page != 1 -%}
+      &ndash; {{ 'general.meta.page' | t: page: current_page }}
+    {%- endif -%}
+    {%- assign escaped_page_title = page_title | escape -%}
+    {%- unless escaped_page_title contains shop.name -%}
+      &ndash; {{ shop.name }}
+    {%- endunless -%}
+  {%- endcapture -%}
+  
+{%- if request.path contains '/blogs/' -%}
+  {%- if current_tags and current_tags.size > 0 -%}
+    <title>{{ page_title | strip }} – {{ current_tags.first }}</title>
+  {%- else -%}
+    <title>{{ page_title }} - BubbleBum</title>
+  {%- endif -%}
+
+{%- elsif request.path == '/' or request.path contains '/products/' or request.path contains '/pages/' -%}
+  <title>{{ page_title | strip }}</title>
+
+{%- elsif request.path contains '/en-de' or request.path contains '/en-ie' -%}
+  {%- if request.path == '/en-de' or request.path == '/en-ie' -%}
+    <title>{{ page_title | strip }}</title>
+  {%- elsif request.path contains '/products/' or request.path contains '/pages/' -%}
+    <title>{{ page_title | strip }}</title>
+  {%- else -%}
+    <title>{{ seo_title | strip }}</title>
+  {%- endif -%}
+
+{%- else -%}
+  <title>{{ seo_title | strip }}</title>
+{%- endif -%}
+
+  {% include 'css-variables' %}
+
+  <style>*,::after,::before{box-sizing:border-box}body{margin:0}body,html{background-color:var(--color-body)}body,button{font-size:calc(var(--font-size-base) * 1px);font-family:var(--font-stack-body);font-style:var(--font-style-body);font-weight:var(--font-weight-body);color:var(--color-text);line-height:1.5}body,button{-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}.border-bottom{border-bottom:1px solid var(--color-border)}.btn--link{background-color:transparent;border:0;margin:0;color:var(--color-text);text-align:left}.text-right{text-align:right}.icon{display:inline-block;width:20px;height:20px;vertical-align:middle;fill:currentColor}.icon__fallback-text,.visually-hidden{position:absolute!important;overflow:hidden;clip:rect(0 0 0 0);height:1px;width:1px;margin:-1px;padding:0;border:0}svg.icon:not(.icon--full-color) circle,svg.icon:not(.icon--full-color) ellipse,svg.icon:not(.icon--full-color) g,svg.icon:not(.icon--full-color) line,svg.icon:not(.icon--full-color) path,svg.icon:not(.icon--full-color) polygon,svg.icon:not(.icon--full-color) polyline,svg.icon:not(.icon--full-color) rect,symbol.icon:not(.icon--full-color) circle,symbol.icon:not(.icon--full-color) ellipse,symbol.icon:not(.icon--full-color) g,symbol.icon:not(.icon--full-color) line,symbol.icon:not(.icon--full-color) path,symbol.icon:not(.icon--full-color) polygon,symbol.icon:not(.icon--full-color) polyline,symbol.icon:not(.icon--full-color) rect{fill:inherit;stroke:inherit}li{list-style:none}.list--inline{padding:0;margin:0}.list--inline>li{display:inline-block;margin-bottom:0;vertical-align:middle}a{color:var(--color-text);text-decoration:none}.h1,.h2,h1,h2{margin:0 0 17.5px;font-family:var(--font-stack-header);font-style:var(--font-style-header);font-weight:var(--font-weight-header);line-height:1.2;overflow-wrap:break-word;word-wrap:break-word}.h1 a,.h2 a,h1 a,h2 a{color:inherit;text-decoration:none;font-weight:inherit}.h1,h1{font-size:calc(((var(--font-h1-desktop))/ (var(--font-size-base))) * 1em);text-transform:none;letter-spacing:0}@media only screen and (max-width:749px){.h1,h1{font-size:calc(((var(--font-h1-mobile))/ (var(--font-size-base))) * 1em)}}.h2,h2{font-size:calc(((var(--font-h2-desktop))/ (var(--font-size-base))) * 1em);text-transform:uppercase;letter-spacing:.1em}@media only screen and (max-width:749px){.h2,h2{font-size:calc(((var(--font-h2-mobile))/ (var(--font-size-base))) * 1em)}}p{color:var(--color-body-text);margin:0 0 19.44444px}@media only screen and (max-width:749px){p{font-size:calc(((var(--font-size-base) - 1)/ (var(--font-size-base))) * 1em)}}p:last-child{margin-bottom:0}@media only screen and (max-width:749px){.small--hide{display:none!important}}.grid{list-style:none;margin:0;padding:0;margin-left:-30px}.grid::after{content:'';display:table;clear:both}@media only screen and (max-width:749px){.grid{margin-left:-22px}}.grid::after{content:'';display:table;clear:both}.grid--no-gutters{margin-left:0}.grid--no-gutters .grid__item{padding-left:0}.grid--table{display:table;table-layout:fixed;width:100%}.grid--table>.grid__item{float:none;display:table-cell;vertical-align:middle}.grid__item{float:left;padding-left:30px;width:100%}@media only screen and (max-width:749px){.grid__item{padding-left:22px}}.grid__item[class*="--push"]{position:relative}@media only screen and (min-width:750px){.medium-up--one-quarter{width:25%}.medium-up--push-one-third{width:33.33%}.medium-up--one-half{width:50%}.medium-up--push-one-third{left:33.33%;position:relative}}.site-header{position:relative;background-color:var(--color-body)}@media only screen and (max-width:749px){.site-header{border-bottom:1px solid var(--color-border)}}@media only screen and (min-width:750px){.site-header{padding:0 55px}.site-header.logo--center{padding-top:30px}}.site-header__logo{margin:15px 0}.logo-align--center .site-header__logo{text-align:center;margin:0 auto}@media only screen and (max-width:749px){.logo-align--center .site-header__logo{text-align:left;margin:15px 0}}@media only screen and (max-width:749px){.site-header__logo{padding-left:22px;text-align:left}.site-header__logo img{margin:0}}.site-header__logo-link{display:inline-block;word-break:break-word}@media only screen and (min-width:750px){.logo-align--center .site-header__logo-link{margin:0 auto}}.site-header__logo-image{display:block}@media only screen and (min-width:750px){.site-header__logo-image{margin:0 auto}}.site-header__logo-image img{width:100%}.site-header__logo-image--centered img{margin:0 auto}.site-header__logo img{display:block}.site-header__icons{position:relative;white-space:nowrap}@media only screen and (max-width:749px){.site-header__icons{width:auto;padding-right:13px}.site-header__icons .btn--link,.site-header__icons .site-header__cart{font-size:calc(((var(--font-size-base))/ (var(--font-size-base))) * 1em)}}.site-header__icons-wrapper{position:relative;display:-webkit-flex;display:-ms-flexbox;display:flex;width:100%;-ms-flex-align:center;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;-o-align-items:center;align-items:center;-webkit-justify-content:flex-end;-ms-justify-content:flex-end;justify-content:flex-end}.site-header__account,.site-header__cart,.site-header__search{position:relative}.site-header__search.site-header__icon{display:none}@media only screen and (min-width:1400px){.site-header__search.site-header__icon{display:block}}.site-header__search-toggle{display:block}@media only screen and (min-width:750px){.site-header__account,.site-header__cart{padding:10px 11px}}.site-header__cart-title,.site-header__search-title{position:absolute!important;overflow:hidden;clip:rect(0 0 0 0);height:1px;width:1px;margin:-1px;padding:0;border:0;display:block;vertical-align:middle}.site-header__cart-title{margin-right:3px}.site-header__cart-count{display:flex;align-items:center;justify-content:center;position:absolute;right:.4rem;top:.2rem;font-weight:700;background-color:var(--color-btn-primary);color:var(--color-btn-primary-text);border-radius:50%;min-width:1em;height:1em}.site-header__cart-count span{font-family:HelveticaNeue,"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:calc(11em / 16);line-height:1}@media only screen and (max-width:749px){.site-header__cart-count{top:calc(7em / 16);right:0;border-radius:50%;min-width:calc(19em / 16);height:calc(19em / 16)}}@media only screen and (max-width:749px){.site-header__cart-count span{padding:.25em calc(6em / 16);font-size:12px}}.site-header__menu{display:none}@media only screen and (max-width:749px){.site-header__icon{display:inline-block;vertical-align:middle;padding:10px 11px;margin:0}}@media only screen and (min-width:750px){.site-header__icon .icon-search{margin-right:3px}}.announcement-bar{z-index:10;position:relative;text-align:center;border-bottom:1px solid transparent;padding:2px}.announcement-bar__link{display:block}.announcement-bar__message{display:block;padding:11px 22px;font-size:calc(((16)/ (var(--font-size-base))) * 1em);font-weight:var(--font-weight-header)}@media only screen and (min-width:750px){.announcement-bar__message{padding-left:55px;padding-right:55px}}.site-nav{position:relative;padding:0;text-align:center;margin:25px 0}.site-nav a{padding:3px 10px}.site-nav__link{display:block;white-space:nowrap}.site-nav--centered .site-nav__link{padding-top:0}.site-nav__link .icon-chevron-down{width:calc(8em / 16);height:calc(8em / 16);margin-left:.5rem}.site-nav__label{border-bottom:1px solid transparent}.site-nav__link--active .site-nav__label{border-bottom-color:var(--color-text)}.site-nav__link--button{border:none;background-color:transparent;padding:3px 10px}.site-header__mobile-nav{z-index:11;position:relative;background-color:var(--color-body)}@media only screen and (max-width:749px){.site-header__mobile-nav{display:-webkit-flex;display:-ms-flexbox;display:flex;width:100%;-ms-flex-align:center;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;-o-align-items:center;align-items:center}}.mobile-nav--open .icon-close{display:none}.main-content{opacity:0}.main-content .shopify-section{display:none}.main-content .shopify-section:first-child{display:inherit}.critical-hidden{display:none}</style>
+
+  <script>
+    window.performance.mark('debut:theme_stylesheet_loaded.start');
+
+    function onLoadStylesheet() {
+      performance.mark('debut:theme_stylesheet_loaded.end');
+      performance.measure('debut:theme_stylesheet_loaded', 'debut:theme_stylesheet_loaded.start', 'debut:theme_stylesheet_loaded.end');
+
+      var url = "{{ 'theme.css' | asset_url }}";
+      var link = document.querySelector('link[href="' + url + '"]');
+      link.loaded = true;
+      link.dispatchEvent(new Event('load'));
+    }
+  </script>
+
+  <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}" type="text/css" media="print" onload="this.media='all';onLoadStylesheet()">
+
+  <style>
+    {{ header_font | font_face: font_display: 'swap' }}
+    {{ base_font | font_face: font_display: 'swap' }}
+    {{ base_font_bold | font_face: font_display: 'swap' }}
+    {{ base_font_bolder | font_face: font_display: 'swap' }}
+    {{ base_font_italic | font_face: font_display: 'swap' }}
+    {{ base_font_bold_italic | font_face: font_display: 'swap' }}
+  </style>
+
+  <script>
+    {%- if settings.currency_code_enabled -%}
+      const moneyFormat = {{ shop.money_with_currency_format | json }}
+    {%- else -%}
+      const moneyFormat = {{ shop.money_format | json }}
+    {%- endif -%}
+
+    var theme = {
+      breakpoints: {
+        medium: 750,
+        large: 990,
+        widescreen: 1400
+      },
+      strings: {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        regularPrice: {{ 'products.product.regular_price' | t | json }},
+        salePrice: {{ 'products.product.sale_price' | t | json }},
+        sale: {{ 'products.product.on_sale' | t | json }},
+        fromLowestPrice: {{ 'products.product.from_lowest_price_html' | t: lowest_price: '[price]' | json }},
+        vendor: {{'products.product.vendor' | t | json }},
+        showMore: {{ 'general.filters.show_more' | t | json }},
+        showLess: {{ 'general.filters.show_less' | t | json }},
+        searchFor: {{ 'general.search.search_for' | t | json }},
+        addressError: {{ 'sections.map.address_error' | t | json }},
+        addressNoResults: {{ 'sections.map.address_no_results' | t | json }},
+        addressQueryLimit: {{ 'sections.map.address_query_limit_html' | t | json }},
+        authError: {{ 'sections.map.auth_error_html' | t | json }},
+        newWindow: {{ 'general.accessibility.link_messages.new_window' | t | json }},
+        external: {{ 'general.accessibility.link_messages.external' | t | json }},
+        newWindowExternal: {{ 'general.accessibility.link_messages.new_window_and_external' | t | json }},
+        removeLabel: {{ 'cart.label.remove' | t: product: '[product]' | json }},
+        update: {{ 'cart.label.update' | t | json }},
+        quantity: {{ 'cart.label.quantity' | t | json }},
+        discountedTotal: {{ 'cart.label.discounted_total' | t | json }},
+        regularTotal: {{ 'cart.label.regular_total' | t | json }},
+        priceColumn: {{ 'cart.label.price_column' | t | json }},
+        quantityMinimumMessage: {{ 'products.product.quantity_minimum_message' | t | json }},
+        cartError: {{ 'cart.general.cart_error' | t | json }},
+        removedItemMessage: {{ 'cart.general.removed_item_html' | t: quantity: '[quantity]', link: '[link]' | json }},
+        unitPrice: {{ 'products.product.unit_price_label' | t | json }},
+        unitPriceSeparator: {{ 'general.accessibility.unit_price_separator' | t | json }},
+        oneCartCount: {{ 'cart.popup.cart_count' | t: count: 1 | json }},
+        otherCartCount: {{ 'cart.popup.cart_count' | t: count: '[count]' | json }},
+        quantityLabel: {{ 'cart.popup.quantity_label' | t: quantity_count: '[count]' | json }},
+        products: {{ 'general.search.products' | t | json }},
+        loading: {{ 'general.search.loading' | t | json }},
+        number_of_results: {{ 'general.search.number_of_results' | t: result_number: '[result_number]', results_count: '[results_count]' | json }},
+        number_of_results_found: {{ 'general.search.number_of_results_found' | t: results_count: '[results_count]' | json }},
+        one_result_found: {{ 'general.search.one_result_found' | t | json }}
+      },
+      moneyFormat: moneyFormat,
+      moneyFormatWithCurrency: {{ shop.money_with_currency_format | json }},
+      settings: {
+        predictiveSearchEnabled: {{ settings.predictive_search_enabled | json }},
+        predictiveSearchShowPrice: {{ settings.predictive_search_show_price | json }},
+        predictiveSearchShowVendor: {{ settings.predictive_search_show_vendor | json }}
+      },
+      stylesheet: "{{ 'theme.css' | asset_url }}"
+    };
+
+    {%- if template == 'collection' -%}
+      {%- if current_tags -%}
+        {%- capture tag_handles -%}
+            {%- for tag in current_tags -%}
+              {{- tag | handle | append: '|' -}}
+            {%- endfor -%}
+        {%- endcapture -%}
+      {%- endif -%}
+      theme.backToCollection = {
+        collection: {
+          title: {{ collection.title | json }},
+          link: "{{ shop.url }}{{ collection.url }}{%- if current_tags -%}/{{- tag_handles | split: '|' | join: '+' -}}{%- endif -%}"
+        }
+      };
+      sessionStorage.setItem("backToCollection", JSON.stringify(theme.backToCollection.collection));
+
+    {%- elsif template != 'product' -%}
+      if (sessionStorage.getItem("backToCollection")) {
+        sessionStorage.removeItem("backToCollection")
+      }
+    {%- endif -%}
+
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+  </script>
+
+  {%- if request.page_type contains 'customers/' -%}
+    <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
+  {%- endif -%}
+
+  <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'lazysizes.js' | asset_url }}" async="async"></script>
+
+  <script type="text/javascript">
+    if (window.MSInputMethodContext && document.documentMode) {
+      var scripts = document.getElementsByTagName('script')[0];
+      var polyfill = document.createElement("script");
+      polyfill.defer = true;
+      polyfill.src = "{{ 'ie11CustomProperties.min.js' | asset_url }}";
+
+      scripts.parentNode.insertBefore(polyfill, scripts);
+    }
+  </script>
+  <style>.async-hide { opacity: 0 !important}</style>
+  <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+  h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+  (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+  })(window,document.documentElement,'async-hide','dataLayer',500,
+  {'GTM-XXXXXX':true});</script>
+  {{ "//cdn.shopify.com/s/files/1/0603/7530/2276/t/1/assets/globo_checkout.js" | script_tag }}
+
+
+
+{% capture modified_header %}
+  {{ content_for_header }}
+{% endcapture %}
+
+{{ modified_header | replace: 'src="/checkouts/internal/preloads.js', 'src="https://bubblebum.co/cdn/shop/t/14/assets/preloads.min.js' }}
+
+{%- if request.path == '/' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://bubblebum.co/#organization",
+  "name": "BubbleBum",
+  "url": "https://bubblebum.co/",
+  "image": "https://bubblebum.co/cdn/shop/files/Logo_No_Text_PNG_Version_Bright_360x.png?v=1683729565",
+  "description": "Portable inflatable booster seats for children aged 4-11, tested to US & European safety standards. Ideal for travel, rentals, taxis & everyday use.",
+  "email": "info@bubblebum.co",
+  "telephone": [
+    "800-969-6586",
+    "+442871 351-662"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Suite 500, 7380 Sand Lake Road",
+    "addressLocality": "Orlando",
+    "addressRegion": "Florida",
+    "postalCode": "32819",
+    "addressCountry": "US"
+  },
+  "knowsAbout": [
+    "Inflatable booster seats",
+    "Travel booster seat for kids",
+    "Portable car safety",
+    "Certified child booster",
+    "Seatbelt positioning",
+    "Compact booster seat"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "BubbleBum Product Range",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Inflatable Travel Booster Seat - Black Style",
+        "description": "Inflatable booster seat in black, tested and ready for travel."
+      },
+      {
+        "@type": "Offer",
+        "name": "Inflatable Travel Booster Seat - Pink Style",
+        "description": "Same travel booster design in pink, lightweight and compliant."
+      },
+      {
+        "@type": "Offer",
+        "name": "Inflatable Travel Booster Seat - Rainbow Style",
+        "description": "Rainbow coloured inflatable booster seat for a fun style."
+      },
+      {
+        "@type": "Offer",
+        "name": "BubbleBum Teleport USA",
+        "description": "Flagship product designed for US travel, compact & durable."
+      },
+      {
+        "@type": "Offer",
+        "name": "Replacement Shoulder Belt Positioning Strap Clip",
+        "description": "Accessory to help position seatbelt properly for child safety."
+      },
+      {
+        "@type": "Offer",
+        "name": "Booster Seat in a Bag Pack",
+        "description": "Carry-along boosters that fold flat into a bag."
+      },
+      {
+        "@type": "Offer",
+        "name": "BubbleBum Twin Pack Inflatable Booster Seat",
+        "description": "Two pack of inflatable booster seats — same great specs, ideal for families."
+      }
+    ]
+  }
+}
+</script>
+{%- endif -%}
+{%- if request.path == '/' or request.path contains '/pages/' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "url": "{{ shop.url | append: page.url }}",
+  "name": {{ page.title | json }},
+  "description": {{ page_description | default: shop.meta_description | json }},
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    "url": "{{ shop.url }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ shop.logo | image_url: width: 300 }}"
+    }
+  }
+}
+</script>
+{%- endif -%}
+
+</head>
+
+<body class="template-{{ request.page_type | handle }}">
+  
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K5QS4VS"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+  {%- if settings.enable_ajax -%}
+    {% include 'cart-popup' %}
+  {%- endif -%}
+
+  {% section 'header' %}
+
+  <div class="page-container drawer-page-content" id="PageContainer">
+
+    <main class="main-content js-focus-hidden" id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+
+    <div id="slideshow-info" class="visually-hidden" aria-hidden="true">
+      {{- 'sections.slideshow.navigation_instructions' | t -}}
+    </div>
+
+  </div>
+
+  <script type="application/json" data-cart-routes>
+    {
+      "cartUrl": "{{ routes.cart_url }}",
+      "cartAddUrl": "{{ routes.cart_add_url }}",
+      "cartChangeUrl": "{{ routes.cart_change_url }}"
+    }
+  </script>
+
+  <ul hidden>
+    <li id="a11y-refresh-page-message">{{ 'general.accessibility.refresh_page' | t }}</li>
+    <li id="a11y-selection-message">{{ 'general.accessibility.selection_help' | t }}</li>
+  </ul>
+  {{ "//cdn.shopify.com/s/files/1/0644/2975/2553/t/2/assets/bubblebum.js" | script_tag}}
+  {% if product.metafields.custom.video_list.value != blank %}
+   <!-- Popup -->
+  <div class="video-popup-overlay" style="display:none;">
+    <div class="video-popup-slider-container">
+      <button class="video-popup-close"><svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(#filter0_dd_3986_1781)"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.5297 10.4697C11.2368 10.1768 10.762 10.1768 10.4691 10.4697C10.1762 10.7626 10.1762 11.2374 10.4691 11.5303L20.9389 22.0001L10.4692 32.4698C10.1763 32.7627 10.1763 33.2376 10.4692 33.5305C10.7621 33.8234 11.2369 33.8234 11.5298 33.5305L21.9995 23.0608L32.4691 33.5303C32.762 33.8232 33.2368 33.8232 33.5297 33.5303C33.8226 33.2374 33.8226 32.7626 33.5297 32.4697L23.0602 22.0001L33.5298 11.5305C33.8227 11.2376 33.8227 10.7627 33.5298 10.4698C33.2369 10.1769 32.7621 10.1769 32.4692 10.4698L21.9995 20.9395L11.5297 10.4697Z" fill="white"></path></g><defs><filter id="filter0_dd_3986_1781" x="0.249512" y="0.25" width="43.5" height="43.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3986_1781"></feBlend><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"></feColorMatrix><feOffset dy="1"></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_3986_1781" result="effect2_dropShadow_3986_1781"></feBlend><feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_3986_1781" result="shape"></feBlend></filter></defs></svg></button>
+       <div class="swiper thumb-video-slider">
+        <div class="swiper-wrapper">
+          {% for video in product.metafields.custom.video_list.value %}
+            <div class="swiper-slide">
+              {{ video | video_tag: muted: true, loop: true, autoplay: false }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="swiper main-video-slider">
+        <div class="swiper-wrapper">
+          {% for video in product.metafields.custom.video_list.value %}
+            <div class="swiper-slide">
+              {{ video | video_tag: controls: true, autoplay: false, muted: false, loop: true }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+     
+    </div>
+  </div>
+
+   <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+  <style>
+    .pdp-video-list-section .slick-arrow,.product-layout-grid__images .slick-arrow{display:none !important;}
+                 .pdp-video-list{position:relative;}
+    .pdp-video-list:after{content:'';width:100%;height:100%;position:absolute;top:0;left:0;z-index:99;}
+    .pdp-video-list-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;justify-content:space-between;
+    }
+
+    .pdp-video-list {
+      width: 32%;
+      cursor: pointer;
+    }
+
+    .pdp-video-list video {
+      width: 100%;
+      height: 250px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .video-popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .video-popup-slider-container {
+      position: relative;
+      width: 90%;
+      height: 90%;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+    }
+
+    .main-video-slider,
+    .thumb-video-slider {
+      height: 100%;
+    }
+
+    .main-video-slider {
+      flex: 4;width:calc(80% - 80px)
+    }
+
+    .thumb-video-slider {
+      flex: 1;width:80px;margin:20vh auto;
+    }
+    .thumb-video-slider .swiper-slide-thumb-active video{border:solid 2px #fff;}
+
+    .swiper-slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .thumb-video-slider .swiper-slide {
+      height: 140px;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+    .main-video-slider .swiper-slide{text-align:center;}
+
+    .thumb-video-slider .swiper-slide video{width:130px;height:130px;margin:0 0 10px;}
+    .main-video-slider .swiper-slide video{width:400px;
+                                           /* height:100vh; */
+                                           object-fit:cover;}
+
+    .thumb-video-slider .swiper-slide-thumb-active {
+      opacity: 1;
+    }
+
+    .video-popup-close {
+      position: absolute;
+      top: 10px;
+      left: -20px;
+      width: 40px;
+      height: 40px;
+      /* background: #fff;
+      border: 2px solid #000;
+      border-radius: 50%;
+      font-size: 20px;
+      line-height: 36px; */
+      text-align: center;
+      cursor: pointer;
+      z-index: 10000;background:none;box-shadow:none;border:none;
+    }
+    .video-popup-close svg{height:55px;width:55px;}
+    @media(max-width:1400px){
+      .pdp-video-list video {height:180px;}
+    }
+    body.main-slide-popup-overflow{overflow:hidden;}
+    @media(max-width:767px){
+      .main-video-slider{width:100% !important;} 
+      .thumb-video-slider{display:none !important;}
+      .main-video-slider .swiper-slide video{width:100% !important;}
+      .video-popup-slider-container{width:100%;height:100%;gap:0;}
+      .video-popup-close{left:0;top:0;}
+      .swiper-slide video{border-radius:0;}
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const popup = document.querySelector(".video-popup-overlay");
+      const closeBtn = document.querySelector(".video-popup-close");
+
+      const thumbsSwiper = new Swiper(".thumb-video-slider", {
+        direction: "vertical",
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        watchSlidesProgress: true,
+      });
+
+      const mainSwiper = new Swiper(".main-video-slider", {
+        direction: "vertical",
+        spaceBetween: 10,
+        slidesPerView: 'auto',
+        thumbs: {
+          swiper: thumbsSwiper,
+        },
+        on: {
+          slideChange: () => {
+            document.querySelectorAll(".main-video-slider video").forEach(v => v.pause());
+            const activeVideo = document.querySelectorAll(".main-video-slider video")[mainSwiper.activeIndex];
+            if (activeVideo) activeVideo.play();
+          }
+        }
+      });
+
+      document.querySelectorAll(".pdp-video-list").forEach((el, index) => {
+        el.addEventListener("click", () => {
+          popup.style.display = "flex";
+                  document.body.classList.add("main-slide-popup-overflow");
+          mainSwiper.slideTo(index);
+          setTimeout(() => {
+            const activeVideo = document.querySelectorAll(".main-video-slider video")[index];
+            if (activeVideo) activeVideo.play();
+          }, 300);
+        });
+      });
+
+      closeBtn.addEventListener("click", () => {
+        popup.style.display = "none";
+                  document.body.classList.remove("main-slide-popup-overflow");
+        document.querySelectorAll(".main-video-slider video").forEach(v => v.pause());
+      });
+    });
+  </script>
+  {% endif %}
+</body>
+</html>

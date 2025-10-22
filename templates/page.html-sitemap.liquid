@@ -1,0 +1,104 @@
+
+<center><h1>Sitemap</h1></center>
+
+<style>
+  .sitemap-container {
+    padding: 30px 15px;
+  }
+
+  .sitemap-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .sitemap-column {
+    flex: 1 1 22%; /* 4 columns ~25% width each with gap */
+    min-width: 220px;
+  }
+
+  .sitemap-column h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+  }
+
+  .sitemap-column ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+  }
+
+  .sitemap-column li {
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 768px) {
+    .sitemap-column {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+
+<div class="sitemap-container">
+  <div class="sitemap-row">
+    
+    <!-- Column 1: Collections -->
+    <div class="sitemap-column">
+      <h2>Collections</h2>
+      <ul>
+        {% for c in collections %}
+          <li><a href="{{ c.url }}">{{ c.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Column 2: Products -->
+    <div class="sitemap-column">
+      <h2>Products</h2>
+      <ul>
+        {% paginate collections.all.products by 1000 %}
+          {% for product in collections.all.products %}
+            <li><a href="{{ product.url }}">{{ product.title }}</a></li>
+          {% endfor %}
+        {% endpaginate %}
+      </ul>
+    </div>
+
+    <!-- Column 3: Pages -->
+    <div class="sitemap-column">
+      <h2>Pages</h2>
+      <ul>
+        {% for page in pages %}
+          {% unless page.url contains "swym-share-wishlist" or page.url contains "swym-wishlist" %}
+            <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+          {% endunless %}
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Column 4: Blog Posts -->
+    <div class="sitemap-column">
+    <h2>Blog Posts</h2>
+<ul>
+  {%- assign blog_handle = "blog" -%}
+  {%- paginate blogs[blog_handle].articles by 50 -%}
+    {%- for article in blogs[blog_handle].articles -%}
+      <li>
+        <a href="{{ article.url }}">{{ article.title }}</a>
+      </li>
+    {%- endfor -%}
+  {%- endpaginate -%}
+</ul>
+
+
+    </div>
+
+  </div>
+</div>
+
+{%- comment -%}
+  End of HTML SiteMap code
+{%- endcomment -%}

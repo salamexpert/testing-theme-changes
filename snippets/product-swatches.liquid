@@ -1,0 +1,44 @@
+<style>
+  .color-swatch-products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .color-swatch-products a {
+    display: block;
+    width: 100px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+  }
+
+  .color-swatch-products a.active {
+    border-color: #000; /* or any highlight color */
+  }
+
+  .color-swatch-products img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+</style>
+
+<div class="color-swatch-products">
+  {% for swatch_product in product.metafields.custom.color_swatch_products.value %}
+    {% if swatch_product %}
+      <a 
+        href="{{ swatch_product.url }}" 
+        title="{{ swatch_product.title }}"
+        class="{% if swatch_product.handle == product.handle %}active{% endif %}"
+      >
+        <img 
+          src="{{ swatch_product.featured_image | image_url: width: 200 }}" 
+          alt="{{ swatch_product.title }}">
+      </a>
+    {% endif %}
+  {% endfor %}
+</div>

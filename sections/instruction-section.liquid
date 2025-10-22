@@ -1,0 +1,167 @@
+ {{ 'styles.css' | asset_url | stylesheet_tag: preload: true }}
+<div class="instruction-section">
+  <div class="container">
+    <div class="instruction-wrap">
+      <div class="instruction-left">
+        {% if section.settings.image != blank %}
+          <img alt="BubbleBum" src="{{ section.settings.image | img_url: "master" }}">
+        {% endif %}
+        {% if section.settings.desc != blank %}
+          {{ section.settings.desc }}
+        {% endif %}
+        <div class="btn-wrap">
+          {% if section.settings.btntext != blank %}
+            <a class="leave-btn" href="{{ section.settings.btnurl }}" target="_blank">{{ section.settings.btntext }}</a>
+          {% endif %}
+          {% if section.settings.btntext2 != blank %}
+            <a class="leave-btn" href="{{ section.settings.btnurl2 }}" target="_blank">
+              {{- section.settings.btntext2 -}}
+            </a>
+          {% endif %}
+          {% if section.settings.btntext3 != blank %}
+            <a class="leave-btn" href="{{ section.settings.btnurl3 }}">{{ section.settings.btntext3 }}</a>
+          {% endif %}
+        </div>
+          
+      </div>
+      <div class="instruction-right">
+        <div class="image-wrap">
+          {% if section.settings.image1 != blank %}
+            <img alt="Thankyou BubbleBum" src="{{ section.settings.image1 | img_url: "master" }}">
+          {% endif %}
+          {% if section.settings.video != blank %}
+            <video class="custom-video" controls>
+              <source src="{{ section.settings.video }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          {% endif %}
+          {% comment %}
+            <div class="place-text">
+              <h2>Place Instruction video</h2>
+              <span>here</span>
+            </div>
+          {% endcomment %}
+        </div>
+      </div>
+      <div class="btn-wrap bottom-btn-wrpa">
+          {% if section.settings.btntext4 != blank %}
+            <a class="leave-btn" href="{{ section.settings.btnurl4 }}" target="_blank">{{ section.settings.btntext4 }}</a>
+          {% endif %}
+          {% if section.settings.btntext5 != blank %}
+            <a class="leave-btn" href="{{ section.settings.btnurl5 }}" target="_blank">{{ section.settings.btntext5 }}</a>
+          {% endif %}
+          {% if section.settings.btntext6 != blank %}
+            <a class="leave-btn" href="{{ section.settings.btnurl6 }}" target="_blank">{{ section.settings.btntext6 }}</a>
+          {% endif %}
+          {% if section.settings.btntext7 != blank %}
+            <a class="leave-btn" href="{{ section.settings.btnurl7 }}" target="_blank">{{ section.settings.btntext7 }}</a>
+          {% endif %}
+          
+        </div>
+    </div>
+    
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Instruction Section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Add Logo Image"
+    },
+    {
+      "type": "richtext",
+      "id": "desc",
+      "label": "Add Description"
+    },
+    {
+      "type": "text",
+      "id": "btntext",
+      "label": "Add Button Text"
+    },
+    {
+      "type": "url",
+      "id": "btnurl",
+      "label": "Add Button URL"
+    },
+    {
+      "type": "text",
+      "id": "btntext2",
+      "label": "Add Button Text 2"
+    },
+    {
+      "type": "url",
+      "id": "btnurl2",
+      "label": "Add Button URL 2"
+    },
+    {
+      "type": "text",
+      "id": "btntext3",
+      "label": "Add Button Text 3"
+    },
+    {
+      "type": "url",
+      "id": "btnurl3",
+      "label": "Add Button URL 3"
+    },
+    {
+      "type": "text",
+      "id": "btntext4",
+      "label": "Add Button Text 4"
+    },
+    {
+      "type": "url",
+      "id": "btnurl4",
+      "label": "Add Button URL 4"
+    },
+    {
+      "type": "text",
+      "id": "btntext5",
+      "label": "Add Button Text 5"
+    },
+    {
+      "type": "url",
+      "id": "btnurl5",
+      "label": "Add Button URL 5"
+    },
+    {
+      "type": "text",
+      "id": "btntext6",
+      "label": "Add Button Text 6"
+    },
+    {
+      "type": "url",
+      "id": "btnurl6",
+      "label": "Add Button URL 6"
+    },
+    {
+      "type": "text",
+      "id": "btntext7",
+      "label": "Add Button Text 7"
+    },
+    {
+      "type": "url",
+      "id": "btnurl7",
+      "label": "Add Button URL 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Add Image 1"
+    },
+    {
+      "type": "url",
+      "id": "video",
+      "label": "Add Video"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instruction Section",
+    }
+  ]
+}
+{% endschema %}
