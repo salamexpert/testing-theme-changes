@@ -9,8 +9,8 @@
     {{- rule | remove: 'Crawl-delay: 10' -}}
   {% endfor %}
 {{ 'Disallow: /customer_authentication/
-Disallow: ?currency=
-Disallow: ?pr_prod_strat=
+Disallow: /*?currency=
+Disallow: /*?pr_prod_strat=
 Disallow: /login_with_shop/
 Disallow: /en-de/cart
 Disallow: /en-ie/cart' }}

@@ -386,7 +386,7 @@
 .pswp__button,
 .pswp__button--arrow--left:before,
 .pswp__button--arrow--right:before {
-    background: url(//bubblebum.co/cdn/shop/t/14/assets/photoswipe-default-skin.png?3412) 0 0 no-repeat;
+    background: url(//bubblebum.co/cdn/shop/t/29/assets/photoswipe-default-skin.png?3644) 0 0 no-repeat;
   background-size: 264px 88px;
   width: 44px;
   height: 44px;
@@ -397,7 +397,7 @@
   .pswp--svg .pswp__button,
   .pswp--svg .pswp__button--arrow--left:before,
   .pswp--svg .pswp__button--arrow--right:before {
-        background-image: url(//bubblebum.co/cdn/shop/t/14/assets/photoswipe-default-skin.svg?3412);
+        background-image: url(//bubblebum.co/cdn/shop/t/29/assets/photoswipe-default-skin.svg?3644);
   }
   .pswp--svg .pswp__button--arrow--left,
   .pswp--svg .pswp__button--arrow--right {
@@ -702,7 +702,7 @@ a.pswp__share--download:hover {
 
 .pswp__preloader--active .pswp__preloader__icn {
   /* We use .gif in browsers that don't support CSS animation */
-      background: url(//bubblebum.co/cdn/shop/t/14/assets/preloader.gif?3412) 0 0 no-repeat;
+      background: url(//bubblebum.co/cdn/shop/t/29/assets/preloader.gif?3644) 0 0 no-repeat;
 }
 
 .pswp--css_animation .pswp__preloader--active {
@@ -1002,7 +1002,7 @@ a.pswp__share--download:hover {
 
 /* Slider */
 .slick-loading .slick-list {
-    background: #fff url(//bubblebum.co/cdn/shop/t/14/assets/preloader.gif?3412) center center no-repeat;
+    background: #fff url(//bubblebum.co/cdn/shop/t/29/assets/preloader.gif?3644) center center no-repeat;
 }
 
 /* Arrows */
